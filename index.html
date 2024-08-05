@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAFARY Tool: AutoAl</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            line-height: 1.6; 
+            padding: 20px; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            background-color: #f5f5dc; 
+            color: #333; 
+        }
+        h1, h2 { 
+            color: #333; 
+            font-weight: 500;
+        }
+        form {
+            background: #fff; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        input[type="file"], textarea {
+            width: 100%; 
+            margin-bottom: 20px; 
+            padding: 15px; 
+            border-radius: 8px; 
+            border: 1px solid #ccc; 
+            font-size: 16px; 
+            background-color: #f9f9f9;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        button {
+            width: 100%; 
+            padding: 15px; 
+            border-radius: 8px; 
+            border: none; 
+            background-color: #333; 
+            color: #fff; 
+            font-size: 16px; 
+            font-weight: 500; 
+            cursor: pointer; 
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #444;
+        }
+        .progress-bar {
+            width: 100%; 
+            background-color: #ddd; 
+            border-radius: 8px; 
+            overflow: hidden; 
+            margin-top: 20px;
+        }
+        .progress-bar-fill {
+            display: block; 
+            height: 20px; 
+            background-color: #333; 
+            transition: width 0.4s ease;
+        }
+        .hidden { display: none; }
+        #results {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        #downloadLink {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+        #downloadLink:hover {
+            background-color: #444;
+        }
+        pre {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>SAFARY Tool: AutoAl</h1>
+    <h3>Automating title/abstract screening for systematic reviews</h3>
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" accept=".ris" multiple required>
+        <textarea name="criteria" placeholder="Enter inclusion criteria" required></textarea>
+        <button type="submit">Upload and Process</button>
+    </form>
+    
+    <div id="uploadProgress" class="hidden">
+        <h2>File Upload Progress</h2>
+        <div class="progress-bar">
+            <span class="progress-bar-fill" style="width: 0%;"></span>
+        </div>
+        <p>Upload Progress: <span id="uploadProgressPercentage">0</span>%</p>
+    </div>
+    
+    <div id="processingProgress" class="hidden">
+        <h2>Processing Progress</h2>
+        <div class="progress-bar">
+            <span class="progress-bar-fill" style="width: 0%;"></span>
+        </div>
+        <p>Processing Progress: <span id="processingProgressPercentage">0</span>%</p>
+        <p>Elapsed Time: <span id="elapsedTime">0</span> seconds</p>
+        <p>Estimated Time Remaining: <span id="remainingTime">0</span> seconds</p>
+    </div>
+    
+    <div id="results" class="hidden">
+        <h2>Results</h2>
+        <pre id="summary"></pre>
+        <a id="downloadLink" href="#" class="hidden">Download CSV</a>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').onsubmit = function(e) {
+            e.preventDefault();
+            var formData = new FormData(this);
+            var xhr = new XMLHttpRequest();
+            
+            xhr.open('POST', '/upload', true);
+            
+            xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable) {
+                    var percentComplete = (e.loaded / e.total) * 100;
+                    document.getElementById('uploadProgress').classList.remove('hidden');
+                    document.querySelector('#uploadProgress .progress-bar-fill').style.width = percentComplete + '%';
+                    document.getElementById('uploadProgressPercentage').textContent = percentComplete.toFixed(2);
+                }
+            };
+            
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    document.getElementById('uploadProgress').classList.add('hidden');
+                    document.getElementById('processingProgress').classList.remove('hidden');
+                    startEventSource();
+                } else {
+                    alert('Upload failed. Please try again.');
+                }
+            };
+            
+            xhr.send(formData);
+        };
+
+        function startEventSource() {
+            var eventSource = new EventSource("/process");
+            eventSource.onmessage = function(event) {
+                var data = JSON.parse(event.data);
+                console.log("Received data:", data);
+                if (data.progress !== undefined) {
+                    document.querySelector('#processingProgress .progress-bar-fill').style.width = data.progress + '%';
+                    document.getElementById('processingProgressPercentage').textContent = data.progress.toFixed(2);
+                    document.getElementById('elapsedTime').textContent = data.elapsed_time.toFixed(2);
+                    document.getElementById('remainingTime').textContent = data.remaining_time.toFixed(2);
+                }
+                if (data.summary) {
+                    document.getElementById('results').classList.remove('hidden');
+                    var summaryHtml = `
+                        <strong>Total Entries:</strong> ${data.summary.total_entries}<br>
+                        <strong>Duplicates Removed:</strong> ${data.summary.duplicates_removed}<br>
+                        <strong>Screened:</strong> ${data.summary.screened}<br>
+                        <strong>Included:</strong> ${data.summary.included}<br>
+                        <strong>Excluded:</strong> ${data.summary.excluded}<br>
+                        <strong>Unclear:</strong> ${data.summary.unclear}
+                    `;
+                    document.getElementById('summary').innerHTML = summaryHtml;
+                    eventSource.close();
+                }
+                if (data.csv_filename) {
+                    var a = document.getElementById('downloadLink');
+                    a.href = '/download_csv/' + data.csv_filename;
+                    a.classList.remove('hidden');
+                }
+            };
+
+            eventSource.onerror = function(error) {
+                console.error('EventSource failed:', error);
+                eventSource.close();
+            };
+        }
+    </script>
+</body>
+</html>
