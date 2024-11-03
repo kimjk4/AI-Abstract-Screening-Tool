@@ -1,4 +1,10 @@
 #Copyright (C) 2024 [Jin Kyu Kim, MD]. All Rights Reserved.
+#Article Screening Tool
+#Copyright (C) 2024 [Jin Kyu Kim, MD]
+#This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or any later version. 
+#This program comes with ABSOLUTELY NO WARRANTY; for details refer to LICENSE file. This is free software, and you are welcome to redistribute it under certain conditions; refer to LICENSE file for details.
+#Additional restrictions apply: No commercial use without permission, Attribution required, Network use restrictions apply
+#Contact: [jjk.kim@mail.utoronto.ca]
 
 # Flask and other imports
 from flask import Flask, render_template, request, Response, session, stream_with_context, send_file
