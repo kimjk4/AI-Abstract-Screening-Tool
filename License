@@ -1,0 +1,63 @@
+GNU GENERAL PUBLIC LICENSE
+                       Version 3, 29 June 2007
+
+ Copyright (C) 2024 [Jin Kyu Kim, MD]
+
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+
+ You should have received a copy of the GNU General Public License
+ along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+                     Additional Permissions
+
+[Your Name or Organization Name] grants additional permissions under GNU GPL version 3 
+section 7.
+
+1. No Commercial Use: This software and its derivatives may not be used for 
+   commercial purposes without explicit written permission from [Your Name or 
+   Organization Name].
+
+2. Attribution Requirement: Any use or distribution of this software must prominently 
+   display the following notice:
+   "This software was originally developed by [Your Name or Organization Name]."
+
+3. Network Use Restriction: If you modify this software and make it accessible 
+   through a network, you must provide the Corresponding Source under the terms of 
+   this license to any users of the network service.
+
+For any questions about licensing or commercial use, please contact:
+[Your Contact Information]
+
+                     How to Apply This License
+
+To protect your code, follow these steps:
+
+1. Add this license header to every source code file:
+```python
+"""
+Article Screening Tool
+Copyright (C) 2024 [Jin Kyu Kim, MD]
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program comes with ABSOLUTELY NO WARRANTY; for details refer to LICENSE file.
+This is free software, and you are welcome to redistribute it
+under certain conditions; refer to LICENSE file for details.
+
+Additional restrictions apply:
+- No commercial use without permission
+- Attribution required
+- Network use restrictions apply
+
+Contact: [jjk.kim@mail.utoronto.ca]
