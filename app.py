@@ -23,7 +23,7 @@ logging.basicConfig(level=logging.DEBUG)
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your-secret-key-here'  # Replace with a random string
+app.config['SECRET_KEY'] = 'jinkyukimsafary123qwoierjqwrevnx'  # Replace with a random string
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['ALLOWED_EXTENSIONS'] = {'ris'}
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB limit
@@ -402,4 +402,3 @@ async def collect_results(async_gen):
 if __name__ == '__main__':
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
     app.run(debug=True)
-
