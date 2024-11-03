@@ -1,3 +1,5 @@
+#Copyright (C) 2024 [Jin Kyu Kim, MD]. All Rights Reserved.
+
 # Flask and other imports
 from flask import Flask, render_template, request, Response, session, stream_with_context, send_file
 import os
