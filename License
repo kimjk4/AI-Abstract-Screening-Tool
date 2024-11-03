@@ -18,7 +18,7 @@ GNU GENERAL PUBLIC LICENSE
 
                      Additional Permissions
 
-[Your Name or Organization Name] grants additional permissions under GNU GPL version 3 
+[Jin Kyu Kim, MD] grants additional permissions under GNU GPL version 3 
 section 7.
 
 1. No Commercial Use: This software and its derivatives may not be used for 
@@ -34,30 +34,5 @@ section 7.
    this license to any users of the network service.
 
 For any questions about licensing or commercial use, please contact:
-[Your Contact Information]
+[Jin Kyu Kim, MD]
 
-                     How to Apply This License
-
-To protect your code, follow these steps:
-
-1. Add this license header to every source code file:
-```python
-"""
-Article Screening Tool
-Copyright (C) 2024 [Jin Kyu Kim, MD]
-
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
-
-This program comes with ABSOLUTELY NO WARRANTY; for details refer to LICENSE file.
-This is free software, and you are welcome to redistribute it
-under certain conditions; refer to LICENSE file for details.
-
-Additional restrictions apply:
-- No commercial use without permission
-- Attribution required
-- Network use restrictions apply
-
-Contact: [jjk.kim@mail.utoronto.ca]
